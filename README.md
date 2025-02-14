@@ -50,7 +50,14 @@ You can also mention accuracy vs bandwidths that you observed while tuning.
 ---
 
 ## Directory Structure
-Three folders - `task2a`, `task2b` and `task3`. You can optionally create folders `task3a` and `task3b` if your implementation differs for task3a and task3b.
+Three folders - `task2a`, `task2b` and `task3`. Each of these directories should contain:
+
+1. sender.c
+2. receiver.c
+3. utils.c
+4. utils.h
+5. MakeFile
+6. Additional relevant files
 
 
 ## References
