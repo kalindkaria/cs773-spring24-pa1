@@ -48,14 +48,14 @@ You can also mention accuracy vs bandwidths that you observed while tuning.
 - **Time taken:** How long did it take for the transmission.
 
 
-## Submission Checklist
+## Plagiarism Checklist
 Your answers should be written in a new line below each bullet.
 
-1. Have you followed the submission instructions strictly?
+1. Have you strictly adhered to the submission guidelines?
 
-2. Have you taken or given help from/to anyone for doing this assignment outside of public discussions and allowed modes as per the course's policy?
+2. Have you received or provided any assistance for this assignment beyond public discussions with peers/TAs?
 
-3. If your answer to the previous bullet was a yes, please describe the nature of help and from whom you've taken it.
+3. If you answered "yes" to the previous question, please specify what part of code you've taken and from whom you've taken it.
 
 
 ## Directory Structure
