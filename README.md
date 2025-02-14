@@ -47,10 +47,9 @@ You can also mention accuracy vs bandwidths that you observed while tuning.
 - **Received Audio:** *(Provide the audio file name or attach the audio)*
 - **Time taken:** How long did it take for the transmission.
 
----
 
 ## Directory Structure
-Three folders - `task2a`, `task2b` and `task3`. Each of these directories should contain:
+Three folders - `task2a`, `task2b`, `task3a` and optionally `task3b`. Each of these directories should contain:
 
 1. sender.c
 2. receiver.c
@@ -59,6 +58,18 @@ Three folders - `task2a`, `task2b` and `task3`. Each of these directories should
 5. MakeFile
 6. Additional relevant files
 
+If the implementation for `task3a` and `task3b` is the same, put the code in the folder `task3a`.
 
-## References
-If you've refered the code in your implementation from any source other that what has been provided by us, this is the place to mention them, it will be considered during plagiarism checks.
+
+Your submission should be `zip` file with \<roll-number\>.zip. Only one team member should submit, else there will be penalties.
+
+
+
+## Submission Checklist
+Your answers should be written in a new line below each bullet.
+
+1. Have you followed the submission instructions strictly?
+
+2. Have you taken or given help from/to anyone for doing this assignment outside of public discussions and allowed modes as per the course's policy?
+
+3. If your answer to the previous bullet was a yes, please describe the nature of help and from whom you've taken it.
