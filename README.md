@@ -48,23 +48,6 @@ You can also mention accuracy vs bandwidths that you observed while tuning.
 - **Time taken:** How long did it take for the transmission.
 
 
-## Directory Structure
-Three folders - `task2a`, `task2b`, `task3a` and optionally `task3b`. Each of these directories should contain:
-
-1. sender.c
-2. receiver.c
-3. utils.c
-4. utils.h
-5. MakeFile
-6. Additional relevant files
-
-If the implementation for `task3a` and `task3b` is the same, put the code in the folder `task3a`.
-
-
-Your submission should be `zip` file with \<roll-number\>.zip. Only one team member should submit, else there will be penalties.
-
-
-
 ## Submission Checklist
 Your answers should be written in a new line below each bullet.
 
@@ -73,3 +56,20 @@ Your answers should be written in a new line below each bullet.
 2. Have you taken or given help from/to anyone for doing this assignment outside of public discussions and allowed modes as per the course's policy?
 
 3. If your answer to the previous bullet was a yes, please describe the nature of help and from whom you've taken it.
+
+
+## Directory Structure
+Folders - `task2a`, `task2b`, `task3a` and optionally `task3b`. Each of these directories should contain:
+
+1. `sender.c`
+2. `receiver.c`
+3. `utils.c`
+4. `utils.h`
+5. `MakeFile`
+6. Additional relevant files
+
+If the implementation for `task3a` and `task3b` is the same, put the code in the folder `task3a`. Apart from the above folders, there should be a completely filled README file.
+
+
+Your submission should be `zip` file with \<roll-number\>.zip. Only one team member should submit, else there will be penalties.
+
