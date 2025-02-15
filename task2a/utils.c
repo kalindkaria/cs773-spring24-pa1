@@ -1,5 +1,37 @@
 #include "utils.h"
 
+// DO NOT MODIFY THIS FUNCTION
+double check_accuracy (char* received_msg, int received_msg_size) {
+    FILE *fp = fopen(MSG_FILE, "r");
+    if(fp == NULL){
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    char original_msg[MAX_MSG_SIZE];
+    int original_msg_size = 0;
+    char c;
+    while((c = fgetc(fp)) != EOF){
+        original_msg[original_msg_size++] = c;
+    }
+    fclose(fp);
+
+    int min_size = received_msg_size < original_msg_size ? received_msg_size : original_msg_size;
+
+    int error_count = (original_msg_size - min_size) * 8;
+    for(int i = 0; i < min_size; i++){
+        char xor_result = received_msg[i] ^ original_msg[i];
+        for(int j = 0; j < 8; j++){
+            if((xor_result >> j) & 1){
+                error_count++;
+            }
+        }
+    }
+    return 1-(double)error_count / (original_msg_size * 8);
+}
+
+// changes made in task2a/utils.c
+
 void* map_file (const char* filename, map_handle_t** handle) {
     if (filename == NULL)
         return NULL;
@@ -56,22 +88,6 @@ void clflush(void* addr) {
 extern inline __attribute((always_inline))
 uint64_t probe_timing(char *addr) {
     volatile uint64_t time;
-
-    // asm __volatile__(
-    //     "    mfence             \n"
-    //     "    lfence             \n"
-    //     "    rdtsc              \n"
-    //     "    lfence             \n"
-    //     "    movl %%eax, %%esi  \n"
-    //     "    movl (%1), %%eax   \n"
-    //     "    lfence             \n"
-    //     "    rdtsc              \n"
-    //     "    subl %%esi, %%eax  \n"
-    //     "    clflush 0(%1)      \n"
-    //     : "=a" (time)
-    //     : "c" (addr)
-    //     : "%esi", "%edx"
-    // );
 
     asm volatile(
         " mfence           \n\t"
@@ -283,34 +299,4 @@ void check_accuracy_own(char *input_binary, char *predefined_binary) {
 
     printf("\nMatching bytes: %d out of %d total bytes\n", num_same_byte, num_total_byte);
     printf("Our Accuracy in %%: %0.2f\n", (double)num_same_byte * 100 / num_total_byte);
-}
-
-// DO NOT MODIFY THIS FUNCTION
-double check_accuracy (char* received_msg, int received_msg_size) {
-    FILE *fp = fopen(MSG_FILE, "r");
-    if(fp == NULL){
-        printf("Error opening file\n");
-        return 1;
-    }
-
-    char original_msg[MAX_MSG_SIZE];
-    int original_msg_size = 0;
-    char c;
-    while((c = fgetc(fp)) != EOF){
-        original_msg[original_msg_size++] = c;
-    }
-    fclose(fp);
-
-    int min_size = received_msg_size < original_msg_size ? received_msg_size : original_msg_size;
-
-    int error_count = (original_msg_size - min_size) * 8;
-    for(int i = 0; i < min_size; i++){
-        char xor_result = received_msg[i] ^ original_msg[i];
-        for(int j = 0; j < 8; j++){
-            if((xor_result >> j) & 1){
-                error_count++;
-            }
-        }
-    }
-    return 1-(double)error_count / (original_msg_size * 8);
 }

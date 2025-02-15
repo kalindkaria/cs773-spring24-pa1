@@ -1,4 +1,11 @@
 #include <stdio.h>
+
+#define MSG_FILE                        "msg.txt"
+#define MAX_MSG_SIZE                    500
+
+double check_accuracy(char*, int);
+
+// changes made in task2a/utils.h
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -7,9 +14,6 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <string.h>
-
-#define MSG_FILE                        "msg.txt"
-#define MAX_MSG_SIZE                    500
 
 #define SHARED_MEMORY_OBJECT            "shared_mem.txt"
 #define MSG_SIZE                        16384
@@ -43,4 +47,3 @@ void send_bit(bool one, map_handle_t *handle);
 bool detect_bit(map_handle_t *handle);
 
 void check_accuracy_own(char *input_binary, char *predefined_binary);
-double check_accuracy(char*, int);
