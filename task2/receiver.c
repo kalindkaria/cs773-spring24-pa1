@@ -11,11 +11,11 @@ int main() {
     map_handle_t *handle;
 
     // map file in memory
-    map_file(MSG_FILE, &handle);
+    map_file(SHARED_MEMORY_OBJECT, &handle);
 
     // receive file contents
     uint32_t sequenceMask = ((uint32_t) 1 << 6) - 1;
-    uint32_t expSequence = 0b101011;
+    uint32_t expSequence = 0b101110;
     uint32_t bitSequence = 0;
     int i = 0;
     bool break_val = false;

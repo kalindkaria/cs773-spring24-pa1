@@ -11,6 +11,7 @@
 #define MSG_FILE                        "msg.txt"
 #define MAX_MSG_SIZE                    500
 
+#define SHARED_MEMORY_OBJECT            "shared_mem.txt"
 #define MSG_SIZE                        16384
 #define CHANNEL_DEFAULT_INTERVAL        0x00008000
 #define CHANNEL_SYNC_TIMEMASK           0x000FFFFF

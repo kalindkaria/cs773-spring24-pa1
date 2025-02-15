@@ -30,15 +30,7 @@ int main() {
 
     // map file in memory
     // char *map = (char *) map_file("msg.txt", &handle);
-    map_file(MSG_FILE, &handle);
-
-    // open file
-    FILE *fptr;
-    fptr = fopen(MSG_FILE, "r");
-    if (fptr == NULL) {
-        printf("Could not open %s\n", "msg.txt");
-        exit(0);
-    }
+    map_file(SHARED_MEMORY_OBJECT, &handle);
 
     // wait for receiver to be ready
     io_sync();
@@ -47,7 +39,7 @@ int main() {
     char *binary = string_to_binary(msg);
     unsigned int bin_len = strlen(binary);
 
-    bool sequence[8] = {1, 0, 1, 0, 1, 0, 1, 1};
+    bool sequence[8] = {1, 0, 1, 0, 1, 1, 1, 0};
     int idx = 0;
     bool done = false;
 
@@ -99,8 +91,6 @@ int main() {
 
     // unmap file
     unmap_file(handle);
-    // close file
-    fclose(fptr);
 
     // ********** YOUR CODE ENDS HERE **********
     // ********** DO NOT MODIFY THIS SECTION **********
