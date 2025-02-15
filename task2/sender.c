@@ -12,7 +12,7 @@ int main() {
         return 1;
     }
 
-    char msg[MAX_MSG_SIZE];
+    char msg[MSG_SIZE];
     int msg_size = 0;
     char c;
     while ((c = fgetc(fp)) != EOF) {
@@ -30,11 +30,11 @@ int main() {
 
     // map file in memory
     // char *map = (char *) map_file("msg.txt", &handle);
-    map_file("msg.txt", &handle);
+    map_file(MSG_FILE, &handle);
 
     // open file
     FILE *fptr;
-    fptr = fopen("msg.txt", "r");
+    fptr = fopen(MSG_FILE, "r");
     if (fptr == NULL) {
         printf("Could not open %s\n", "msg.txt");
         exit(0);
@@ -61,7 +61,7 @@ int main() {
         io_sync();
 
         // send data
-        for (int j = 0; j < MAX_MSG_SIZE / 8; j++) {
+        for (int j = 0; j < MSG_SIZE / 8; j++) {
             if (binary[idx] == '0') {
                 send_bit(false, handle);
             } else {

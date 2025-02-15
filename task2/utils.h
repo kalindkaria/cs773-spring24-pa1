@@ -8,14 +8,15 @@
 #include <unistd.h>
 #include <string.h>
 
-#define MSG_FILE "msg.txt"
-#define MAX_MSG_SIZE 500
+#define MSG_FILE                        "msg.txt"
+#define MAX_MSG_SIZE                    500
 
+#define MSG_SIZE                        16384
 #define CHANNEL_DEFAULT_INTERVAL        0x00008000
 #define CHANNEL_SYNC_TIMEMASK           0x000FFFFF
-#define GLOBAL_SYNC_TIMEMASK            0x00FFFFFF
-#define CHANNEL_SYNC_JITTER             0x0800
-#define CACHE_MISS_LATENCY              210
+#define GLOBAL_SYNC_TIMEMASK            0x0000FFFF
+#define CHANNEL_SYNC_JITTER             0x0600
+#define CACHE_MISS_LATENCY              280
 
 typedef struct map_handle_s {
   int fd;
@@ -35,12 +36,10 @@ uint64_t cc_sync();
 uint64_t io_sync();
 
 char *string_to_binary(char *s);
+int write_binary_comparison_to_file(char* input_binary);
 char *binary_to_string(char *data);
-
-char* binary_to_ascii(const char* binary_string);
-char *conv_char(char *data, int size, char *msg);
-
 void send_bit(bool one, map_handle_t *handle);
 bool detect_bit(map_handle_t *handle);
 
+void check_accuracy_own(char *input_binary, char *predefined_binary);
 double check_accuracy(char*, int);

@@ -26,4 +26,4 @@ receiver.o: receiver.c utils.h
 
 # Clean up build artifacts
 clean:
-	rm -f sender receiver *.o
+	rm -f sender receiver *.o binary_comparison.txt

@@ -132,6 +132,60 @@ char *string_to_binary(char *s) {
     return binary;
 }
 
+int write_binary_comparison_to_file(char* input_binary) {
+    FILE *fp = fopen(MSG_FILE, "r");
+    if (fp == NULL) {
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    char msg[MSG_SIZE];
+    int msg_size = 0;
+    char c;
+    while ((c = fgetc(fp)) != EOF) {
+        msg[msg_size++] = c;
+    }
+    fclose(fp);
+
+    char* predefined_string = msg;
+
+    // Convert predefined string to binary
+    char* predefined_binary = string_to_binary(predefined_string);
+    if (predefined_binary == NULL) {
+        return -1;  // Memory allocation failed
+    }
+
+    // Open file for writing
+    fp = fopen("binary_comparison.txt", "w");
+    if (!fp) {
+        free(predefined_binary);
+        return -2;  // File opening failed
+    }
+
+    // Get lengths of both binary strings
+    int input_len = strlen(input_binary);
+    int predefined_len = strlen(predefined_binary);
+    int max_len = (input_len > predefined_len) ? input_len : predefined_len;
+
+    // Write header to file
+    fprintf(fp, "Input Binary\tPredefined Binary\n");
+    fprintf(fp, "-----------\t----------------\n");
+
+    // Write bits side by side until both strings are exhausted
+    for (int i = 0; i < max_len; i++) {
+        char input_bit = (i < input_len) ? input_binary[i] : '-';
+        char pred_bit = (i < predefined_len) ? predefined_binary[i] : '-';
+        fprintf(fp, "%c\t\t%c\n", input_bit, pred_bit);
+    }
+
+    check_accuracy_own(input_binary, predefined_binary);
+    // Clean up
+    fclose(fp);
+    free(predefined_binary);
+    return 0;
+}
+
+// extern inline __attribute((always_inline))
 char *binary_to_string(char *data) {
     size_t msg_len = strlen(data) / 8;
     char *msg = malloc(msg_len+1);
@@ -152,46 +206,6 @@ char *binary_to_string(char *data) {
     return msg;
 }
 
-char *conv_char(char *data, int size, char *msg) {
-    for (int i = 0; i < size; i++) {
-        char tmp[8];
-        int k = 0;
-
-        for (int j = i * 8; j < ((i + 1) * 8); j++) {
-            tmp[k++] = data[j];
-        }
-
-        char tm = strtol(tmp, 0, 2);
-        msg[i] = tm;
-    }
-
-    msg[size] = '\0';
-    return msg;
-}
-
-char* binary_to_ascii(const char* binary_string) {
-    int length = strlen(binary_string);
-    int ascii_length = length / 8;
-    char* ascii_string = (char*)malloc(ascii_length + 1);  // Allocate memory for ASCII string
-    int j = 0;
-
-    for (int i = 0; i < length; i += 8) {
-        // Extract each 8-bit chunk
-        char bin[9];
-        strncpy(bin, binary_string + i, 8);
-        bin[8] = '\0';  // Null terminate the binary string
-
-        // Convert binary to decimal (ASCII value)
-        int ascii_value = strtol(bin, NULL, 2);
-
-        // Store the corresponding ASCII character
-        ascii_string[j++] = (char)ascii_value;
-    }
-
-    ascii_string[j] = '\0';  // Null terminate the ASCII string
-    return ascii_string;
-}
-
 void send_bit(bool one, map_handle_t *handle) {
     // synchronize with receiver
     uint64_t start_t = cc_sync();
@@ -207,7 +221,7 @@ void send_bit(bool one, map_handle_t *handle) {
     }
 }
 
-bool detect_bit(map_handle_t *handle) {
+bool inline detect_bit(map_handle_t *handle) {
 	int misses = 0, hits = 0;
 
 	// Sync with sender
@@ -224,6 +238,51 @@ bool detect_bit(map_handle_t *handle) {
 		}
 	}
 	return misses >= hits;
+}
+
+void check_accuracy_own(char *input_binary, char *predefined_binary) {
+    int input_len = strlen(input_binary);
+    int predefined_len = strlen(predefined_binary);
+    // Count matching bytes
+    int num_same_byte = 0;
+    int num_total_byte = 0;
+    int min_len = (input_len < predefined_len) ? input_len : predefined_len;
+
+    // Process complete bytes (8 bits)
+    for (int i = 0; i < min_len - 7; i += 8) {
+        num_total_byte++;
+        int match = 1;
+        for (int j = 0; j < 8; j++) {
+            if (input_binary[i + j] != predefined_binary[i + j]) {
+                match = 0;
+                break;
+            }
+        }
+        if (match) {
+            num_same_byte++;
+        }
+    }
+
+    // Handle remaining bits (less than 8)
+    if (min_len % 8 != 0) {
+        num_total_byte++;
+        int remaining_bits = min_len % 8;
+        int start_pos = min_len - remaining_bits;
+        int match = 1;
+
+        for (int i = 0; i < remaining_bits; i++) {
+            if (input_binary[start_pos + i] != predefined_binary[start_pos + i]) {
+                match = 0;
+                break;
+            }
+        }
+        if (match) {
+            num_same_byte++;
+        }
+    }
+
+    printf("\nMatching bytes: %d out of %d total bytes\n", num_same_byte, num_total_byte);
+    printf("Our Accuracy in %%: %0.2f\n", (double)num_same_byte * 100 / num_total_byte);
 }
 
 // DO NOT MODIFY THIS FUNCTION
@@ -253,6 +312,5 @@ double check_accuracy (char* received_msg, int received_msg_size) {
             }
         }
     }
-    printf("%s\n", original_msg);
     return 1-(double)error_count / (original_msg_size * 8);
 }
