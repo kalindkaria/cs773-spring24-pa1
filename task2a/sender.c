@@ -29,7 +29,6 @@ int main() {
     map_handle_t *handle;
 
     // map file in memory
-    // char *map = (char *) map_file("msg.txt", &handle);
     map_file(SHARED_MEMORY_OBJECT, &handle);
 
     // wait for receiver to be ready
@@ -93,6 +92,7 @@ int main() {
     unmap_file(handle);
 
     // ********** YOUR CODE ENDS HERE **********
+
     // ********** DO NOT MODIFY THIS SECTION **********
     clock_t end = clock();
     // unsigned long long end = rdtsc();
